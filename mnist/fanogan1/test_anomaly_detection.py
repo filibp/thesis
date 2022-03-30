@@ -21,7 +21,8 @@ def test_anomaly_detection(opt, datastamp, generator, discriminator, encoder,
 
     with open("results"+datastamp+"/score.csv", "w") as f:
         f.write("label,img_distance,anomaly_score,z_distance\n")
-    for (img, label) in tqdm(dataloader):
+
+    for (img, label) in dataloader:
         real_img = img.to(device)
 
         real_z = encoder(real_img)
