@@ -2,8 +2,6 @@ import torch
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 import torchvision
-from fanogan.train_wgangp import train_wgangp
-
 from model import Generator, Discriminator
 from torchvision import datasets
 import matplotlib.pyplot as plt
