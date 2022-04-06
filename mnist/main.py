@@ -17,14 +17,14 @@ from fanogan1.save_compared_images import save_compared_images
 
 import datetime
 import time
-
+import pickle
 
 # from fanogan1.test_anomaly_detection import test_anomaly_detection
 
 
 
 def main(opt):
-
+    
     start_time = time.time()
     if type(opt.seed) is int:
         torch.manual_seed(opt.seed)
@@ -99,6 +99,17 @@ def main(opt):
 
     print('total time in seconds = ' + str(time.time() - start_time))
 
+    with open("results"+datastamp +"/run_report.txt",'w') as f:
+        f.write('opt:  \n\n')
+        f.write(opt.__str__())
+        f.write('\n\ngenerator:  \n\n')
+        f.write(generator.__str__())
+        f.write('\n\ndiscriminator:  \n\n')
+        f.write(discriminator.__str__())
+        f.write('\n\nencoder:  \n\n')
+        f.write(encoder.__str__())
+        f.write('\n\ntotal time in seconds = ' + str(time.time() - start_time))
+
 
 
 
@@ -115,7 +126,7 @@ if __name__ == "__main__":
                         help="adam: decay of first order momentum of gradient")
     parser.add_argument("--b2", type=float, default=0.999,
                         help="adam: decay of first order momentum of gradient")
-    parser.add_argument("--latent_dim", type=int, default=100,
+    parser.add_argument("--latent_dim", type=int, default=200,
                         help="dimensionality of the latent space")
     parser.add_argument("--img_size", type=int, default=300,
                         help="size of each image dimension")
