@@ -19,16 +19,16 @@ class Generator(nn.Module):
             layers = [nn.Linear(in_feat, out_feat)]
             if normalize:
                 layers.append(nn.BatchNorm1d(out_feat, 0.8))
-            layers.append(nn.LeakyReLU(0.2, inplace=True))
+            layers.append(nn.LeakyReLU(0.15, inplace=True))
             return layers
 
         self.model = nn.Sequential(
-            *block(opt.latent_dim, 256, normalize=False),
-            *block(256, 512),
+            *block(opt.latent_dim, 512, normalize=False),
             *block(512, 1024),
             *block(1024, 2048),
             *block(2048, 4096),
-            nn.Linear(4096, int(np.prod(self.img_shape))),
+            *block(4096, 8192),
+            nn.Linear(8192, int(np.prod(self.img_shape))),
             nn.Tanh()
             )
 
@@ -44,11 +44,12 @@ class Discriminator(nn.Module):
         img_shape = (opt.channels, opt.img_size, opt.img_size)
 
         self.features = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), 1024),
-            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(int(np.prod(img_shape)), 2048),
+            nn.LeakyReLU(0.15, inplace=True),
+            nn.Linear(2048, 1024),
             nn.Linear(1024, 512),
             nn.Linear(512, 256),
-            nn.LeakyReLU(0.2, inplace=True)
+            nn.LeakyReLU(0.15, inplace=True)
             )
 
         self.last_layer = nn.Sequential(
@@ -72,12 +73,14 @@ class Encoder(nn.Module):
         img_shape = (opt.channels, opt.img_size, opt.img_size)
 
         self.model = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), 1024),
-            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(int(np.prod(img_shape)), 2048),
+            nn.LeakyReLU(0.15, inplace=True),
+            nn.Linear(2048, 1024),
+            nn.LeakyReLU(0.15, inplace=True),
             nn.Linear(1024, 512),
-            nn.LeakyReLU(0.2, inplace=True),
+            nn.LeakyReLU(0.15, inplace=True),
             nn.Linear(512, 256),
-            nn.LeakyReLU(0.2, inplace=True),
+            nn.LeakyReLU(0.15, inplace=True),
             nn.Linear(256, opt.latent_dim),
             nn.Tanh()
         )
