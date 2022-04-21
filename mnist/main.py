@@ -50,13 +50,13 @@ def main(opt):
     train_wgangp(opt, generator, discriminator, train_dataloader, device, datastamp)
 
 
-    train_mnist_encoder = SimpleDataset(x_train, y_train,
+    train_mnist = SimpleDataset(x_train, y_train,
                                 transform=transforms.Compose(
                                     [transforms.ToPILImage(),
                                      transforms.ToTensor(),
                                      transforms.Normalize([0.5], [0.5])])
                                 )
-    train_dataloader = DataLoader(train_mnist_encoder, batch_size=opt.batch_size,
+    train_dataloader = DataLoader(train_mnist, batch_size=opt.batch_size,
                                   shuffle=True)
 
     generator = Generator(opt)
