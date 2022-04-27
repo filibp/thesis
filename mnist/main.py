@@ -40,7 +40,8 @@ def main(opt):
                                 transform=transforms.Compose(
                                     [transforms.ToPILImage(),
                                      transforms.ToTensor(),
-                                     transforms.Normalize([0.5], [0.5])])
+                                     transforms.Normalize([0.5], [0.5])
+                                     ])
                                 )
     train_dataloader = DataLoader(train_mnist, batch_size=opt.batch_size,
                                   shuffle=True)
@@ -54,7 +55,8 @@ def main(opt):
                                 transform=transforms.Compose(
                                     [transforms.ToPILImage(),
                                      transforms.ToTensor(),
-                                     transforms.Normalize([0.5], [0.5])])
+                                     transforms.Normalize([0.5], [0.5])
+                                     ])
                                 )
     train_dataloader = DataLoader(train_mnist, batch_size=opt.batch_size,
                                   shuffle=True)
@@ -71,7 +73,8 @@ def main(opt):
                                transform=transforms.Compose(
                                    [transforms.ToPILImage(),
                                     transforms.ToTensor(),
-                                    transforms.Normalize([0.5], [0.5])])
+                                    transforms.Normalize([0.5], [0.5])
+                                    ])
                                )
     test_dataloader = DataLoader(test_mnist, batch_size=1, shuffle=False)
 
@@ -87,7 +90,8 @@ def main(opt):
                                transform=transforms.Compose(
                                    [transforms.ToPILImage(),
                                     transforms.ToTensor(),
-                                    transforms.Normalize([0.5], [0.5])])
+                                    transforms.Normalize([0.5], [0.5])
+                                    ])
                                )
     test_dataloader = DataLoader(test_mnist, batch_size=opt.n_grid_lines,
                                  shuffle=True)
