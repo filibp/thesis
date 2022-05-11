@@ -26,9 +26,9 @@ def save_compared_images(opt, datastamp, generator, encoder, dataloader, device)
         compared_images[0::3] = real_img
         compared_images[1::3] = fake_img
         compared_images[2::3] = real_img - fake_img
-        with open('images.pck','wb') as f:
-            pickle.dump([fake_img, real_img, real_z, compared_images], f)
-        break
+        # with open('images.pck','wb') as f:
+        #     pickle.dump([fake_img, real_img, real_z, compared_images], f)
+        # break
         save_image(compared_images.data,
                    "results"+datastamp+f"/images_diff/{opt.n_grid_lines*(i+1):06}.png",
                    nrow=3, normalize=True)
