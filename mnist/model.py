@@ -47,7 +47,7 @@ class Discriminator(nn.Module):
             nn.Linear(int(np.prod(img_shape)), 8192),
             nn.LeakyReLU(0.2, inplace=True),
             nn.Linear(8192, 4096),
-            nn.Linear(4096, 1024),
+            nn.Linear(4096, 2048),
             nn.Linear(2048, 1024),
             nn.Linear(1024, 512),
             nn.Linear(512, 256),
