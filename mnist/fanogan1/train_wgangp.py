@@ -114,3 +114,5 @@ def train_wgangp(opt, generator, discriminator,
 
     torch.save(generator.state_dict(), "results" + datastamp + "/generator")
     torch.save(discriminator.state_dict(), "results" + datastamp + "/discriminator")
+
+    return g_loss, d_loss

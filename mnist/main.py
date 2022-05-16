@@ -48,7 +48,7 @@ def main(opt):
 
     generator = Generator(opt)
     discriminator = Discriminator(opt)
-    train_wgangp(opt, generator, discriminator, train_dataloader, device, datastamp)
+    g_loss, d_loss = train_wgangp(opt, generator, discriminator, train_dataloader, device, datastamp)
 
 
     train_mnist = SimpleDataset(x_train, y_train,
@@ -65,7 +65,7 @@ def main(opt):
     discriminator = Discriminator(opt)
     encoder = Encoder(opt)
 
-    train_encoder_izif(opt, datastamp, generator, discriminator, encoder,
+    e_loss = train_encoder_izif(opt, datastamp, generator, discriminator, encoder,
                        train_dataloader, device)
 
 
@@ -95,7 +95,7 @@ def main(opt):
                                )
     test_dataloader = DataLoader(test_mnist, batch_size=opt.n_grid_lines,
                                  shuffle=True)
-
+    
     generator = Generator(opt)
     encoder = Encoder(opt)
 
@@ -106,6 +106,8 @@ def main(opt):
     with open("results"+datastamp +"/run_report.txt",'w') as f:
         f.write('opt:  \n\n')
         f.write(opt.__str__())
+        f.write('g_loss, d_loss, e_loss:  \n\n')
+        f.write(str(g_loss) + '\t' + str(d_loss) + '\t' + str(e_loss))
         f.write('\n\ngenerator:  \n\n')
         f.write(generator.__str__())
         f.write('\n\ndiscriminator:  \n\n')

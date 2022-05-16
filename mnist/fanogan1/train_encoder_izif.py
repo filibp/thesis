@@ -84,3 +84,4 @@ def train_encoder_izif(opt, datastamp, generator, discriminator, encoder,
 
                 batches_done += opt.n_critic
     torch.save(encoder.state_dict(), "results"+datastamp+"/encoder")
+    return e_loss

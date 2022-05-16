@@ -20,7 +20,7 @@ def test_anomaly_detection(opt, datastamp, generator, discriminator, encoder,
     criterion = nn.MSELoss()
 
     with open("results"+datastamp+"/score.csv", "w") as f:
-        f.write("label,img_distance,anomaly_score,z_distance\n")
+        f.write("label,img_distance,anomaly_score,z_distance,loss_feature\n")
 
     for (img, label) in dataloader:
         real_img = img.to(device)
@@ -37,4 +37,4 @@ def test_anomaly_detection(opt, datastamp, generator, discriminator, encoder,
         z_distance = criterion(fake_z, real_z)
         with open("results"+datastamp+"/score.csv", "a") as f:
             f.write(f"{label.item()},{img_distance},"
-                    f"{anomaly_score},{z_distance}\n")
+                    f"{anomaly_score},{z_distance},{loss_feature}\n")
