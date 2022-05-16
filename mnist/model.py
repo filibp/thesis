@@ -44,10 +44,10 @@ class Discriminator(nn.Module):
         img_shape = (opt.channels, opt.img_size, opt.img_size)
 
         self.features = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), 8192),
+            nn.Linear(int(np.prod(img_shape)), 2048),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(8192, 4096),
-            nn.Linear(4096, 2048),
+            # nn.Linear(8192, 4096),
+            # nn.Linear(4096, 2048),
             nn.Linear(2048, 1024),
             nn.Linear(1024, 512),
             nn.Linear(512, 256),
@@ -75,17 +75,17 @@ class Encoder(nn.Module):
         img_shape = (opt.channels, opt.img_size, opt.img_size)
 
         self.model = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), 4096),
+            nn.Linear(int(np.prod(img_shape)), 1024),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(4096, 2048),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(2048, 1024),
-            nn.LeakyReLU(0.2, inplace=True),
+            # nn.Linear(4096, 2048),
+            # nn.LeakyReLU(0.2, inplace=True),
+            # nn.Linear(2048, 1024),
+            # nn.LeakyReLU(0.2, inplace=True),
             nn.Linear(1024, 512),
-            # nn.LeakyReLU(0.1, inplace=True),
-            # nn.Linear(512, 256),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(512, opt.latent_dim),
+            nn.Linear(512, 256),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(256, opt.latent_dim),
             nn.Tanh()
         )
 
