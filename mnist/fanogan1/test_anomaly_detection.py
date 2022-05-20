@@ -36,5 +36,5 @@ def test_anomaly_detection(opt, datastamp, generator, discriminator, encoder,
         anomaly_score = img_distance + kappa * loss_feature
         z_distance = criterion(fake_z, real_z)
         with open("results"+datastamp+"/score.csv", "a") as f:
-            f.write(f"{label.item()},{img_distance},"
+            f.write(f"{label[0]},{img_distance},"
                     f"{anomaly_score},{z_distance},{loss_feature}\n")

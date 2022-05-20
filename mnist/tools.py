@@ -60,9 +60,9 @@ class SimpleDataset(torch.utils.data.Dataset):
 
 def load_mnist(trainset_path, image_size=275, training_label=1, split_rate=0.8):
     x_train = torch.zeros(len(os.listdir(trainset_path + '/' + 'trainset')), image_size, image_size)
-    y_train = torch.zeros(len(os.listdir(trainset_path + '/' + 'trainset')))
+    y_train = []
     x_test = torch.zeros(len(os.listdir(trainset_path + '/' + 'anomalous')), image_size, image_size)
-    y_test = torch.zeros(len(os.listdir(trainset_path + '/' + 'anomalous')))
+    y_test = []
     for i, folder in enumerate(os.listdir(trainset_path)):
         for j, image_name in enumerate(os.listdir(trainset_path + '/' + folder)):
             if j % 1000 == 0:
@@ -73,10 +73,10 @@ def load_mnist(trainset_path, image_size=275, training_label=1, split_rate=0.8):
             if folder == 'trainset':
                 x_train[j] = image
                 # print(len(torchvision.io.read_image(trainset_path + '/' + folder + '/' + image)))
-                y_train[j] = image_name
+                y_train.append(image_name)
                 # print(len(y_train))
             else:
                 x_test[j] = image
-                y_test[j] = image_name
+                y_test.append(image_name)
 
     return  (x_train, y_train), (x_test, y_test)
