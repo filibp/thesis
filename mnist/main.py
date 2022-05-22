@@ -106,7 +106,7 @@ def main(opt):
     with open("results"+datastamp +"/run_report.txt",'w') as f:
         f.write('opt:  \n\n')
         f.write(opt.__str__())
-        f.write('g_loss, d_loss, e_loss:  \n\n')
+        f.write('\n\ng_loss, d_loss, e_loss:  \n\n')
         f.write(str(g_loss) + '\t' + str(d_loss) + '\t' + str(e_loss))
         f.write('\n\ngenerator:  \n\n')
         f.write(generator.__str__())
