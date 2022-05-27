@@ -3,7 +3,8 @@ import torch
 import torch.autograd as autograd
 from torchvision.utils import save_image
 import datetime
-
+import json
+import matplotlib.pyplot as plt
 """
 These codes are:
 Copyright (c) 2018 Erik Linder-Norén
@@ -48,6 +49,11 @@ def train_wgangp(opt, generator, discriminator,
     padding_epoch = len(str(opt.n_epochs))
     padding_i = len(str(len(dataloader)))
 
+    d_loss_tab = []
+    d_loss_tab_epoch = []
+    g_loss_tab = []
+    g_loss_tab_epoch = []
+
     batches_done = 0
     for epoch in range(opt.n_epochs):
         for i, (imgs, _)in enumerate(dataloader):
@@ -79,6 +85,8 @@ def train_wgangp(opt, generator, discriminator,
             d_loss = (-torch.mean(real_validity) + torch.mean(fake_validity)
                       + lambda_gp * gradient_penalty)
 
+            d_loss_tab.append(d_loss.item())
+
             d_loss.backward()
             optimizer_D.step()
 
@@ -97,7 +105,9 @@ def train_wgangp(opt, generator, discriminator,
                 # Train on fake images
                 fake_validity = discriminator(fake_imgs)
                 g_loss = -torch.mean(fake_validity)
-
+                
+                g_loss_tab.append(g_loss.item())
+                
                 g_loss.backward()
                 optimizer_G.step()
                 print(f"[Epoch {epoch:{padding_epoch}}/{opt.n_epochs}] "
@@ -111,6 +121,30 @@ def train_wgangp(opt, generator, discriminator,
                                nrow=5, normalize=True)
 
                 batches_done += opt.n_critic
+        d_loss_tab_epoch.append(d_loss.item())
+        g_loss_tab_epoch.append(g_loss.item())
+    
+
+    d_loss_tabs = {'d_loss_tab': d_loss_tab, 'd_loss_epoch_tab': d_loss_tab_epoch}
+    g_loss_tabs = {'g_loss_tab': g_loss_tab, 'g_loss_epoch_tab': g_loss_tab_epoch}
+    d_json_loss_tabs = json.dumps(d_loss_tabs)
+    djsonFile = open("results"+datastamp + "/discriminator_loss.json", "w")
+    djsonFile.write(d_json_loss_tabs)
+    djsonFile.close()
+    g_json_loss_tabs = json.dumps(g_loss_tabs)
+    gjsonFile = open("results"+datastamp + "/generator_loss.json", "w")
+    gjsonFile.write(g_json_loss_tabs)
+    gjsonFile.close()
+
+    plt.clf()
+    plt.plot([_ for _ in range(len(d_loss_tab_epoch))], d_loss_tab_epoch)
+    plt.title('discriminator learning curve')
+    plt.savefig("results" + datastamp + "/discriminator_learning_curve.jpg")
+
+    plt.clf()
+    plt.plot([_ for _ in range(len(g_loss_tab_epoch))], g_loss_tab_epoch)
+    plt.title('generator learning curve')
+    plt.savefig("results" + datastamp + "/generator_learning_curve.jpg")
 
     torch.save(generator.state_dict(), "results" + datastamp + "/generator")
     torch.save(discriminator.state_dict(), "results" + datastamp + "/discriminator")

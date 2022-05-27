@@ -2,8 +2,8 @@ import os
 import torch
 import torch.nn as nn
 from torchvision.utils import save_image
-
-
+import json
+import matplotlib.pyplot as plt
 """
 These codes are:
 Copyright (c) 2018 Erik Linder-Norén
@@ -38,6 +38,11 @@ def train_encoder_izif(opt, datastamp, generator, discriminator, encoder,
     padding_i = len(str(len(dataloader)))
 
     batches_done = 0
+
+    loss_tab = []
+    loss_epoch_tab = []
+
+
     for epoch in range(opt.n_epochs):
         for i, (imgs, _) in enumerate(dataloader):
 
@@ -66,6 +71,8 @@ def train_encoder_izif(opt, datastamp, generator, discriminator, encoder,
             loss_features = criterion(fake_features, real_features)
             e_loss = loss_imgs + kappa * loss_features
 
+            loss_tab.append(e_loss.item())
+            
             e_loss.backward()
             optimizer_E.step()
 
@@ -83,5 +90,16 @@ def train_encoder_izif(opt, datastamp, generator, discriminator, encoder,
                                nrow=5, normalize=True)
 
                 batches_done += opt.n_critic
+        loss_epoch_tab.append(e_loss.item())
+    loss_tabs = {'loss_tab': loss_tab, 'loss_epoch_tab': loss_epoch_tab}
+    json_loss_tabs = json.dumps(loss_tabs)
+    jsonFile = open("results"+datastamp + "/encoder_loss.json", "w")
+    jsonFile.write(json_loss_tabs) 
+    jsonFile.close()
+    plt.clf()
+    plt.plot()
+    plt.plot([_ for _ in range(len(loss_epoch_tab))], loss_epoch_tab)
+    plt.title('encoder learning curve')
+    plt.savefig("results"+datastamp+"/encoder_learning_curve.jpg")
     torch.save(encoder.state_dict(), "results"+datastamp+"/encoder")
     return e_loss
