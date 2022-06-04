@@ -31,8 +31,8 @@ def test_anomaly_detection(opt, datastamp, generator, discriminator, encoder,
         real_feature = discriminator.forward_features(real_img)
         fake_feature = discriminator.forward_features(fake_img)
 
-        psnr = peak_signal_noise_ratio(real_img[0][0].cpu(), fake_img[0][0].cpu())
-        ssim = structural_similarity(real_img[0][0].cpu(), fake_img[0][0].cpu())
+        psnr = peak_signal_noise_ratio(real_img[0][0].cpu().detach().numpy(), fake_img[0][0].cpu().detach().numpy())
+        ssim = structural_similarity(real_img[0][0].cpu().detach().numpy(), fake_img[0][0].cpu().detach().numpy())
 
         
 
