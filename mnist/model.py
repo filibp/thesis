@@ -23,12 +23,12 @@ class Generator(nn.Module):
             return layers
 
         self.model = nn.Sequential(
-            *block(opt.latent_dim, 4096, normalize=False),
+            *block(opt.latent_dim, 2048, normalize=False),
             # *block(512, 1024, normalize=False),
             # *block(1024, 2048, normalize=False),
-            # *block(2048, 4096, normalize=False),
+            *block(2048, 4096, normalize=False),
             *block(4096, 8192, normalize=False),
-            *block(8192, 16384, normalize=False),
+            *block(8192, 16384),
             # *block(4096, 8192),
             nn.Linear(16384, int(np.prod(self.img_shape))),
             nn.Tanh()
