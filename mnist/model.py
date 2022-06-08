@@ -84,7 +84,7 @@ class Encoder(nn.Module):
             nn.Linear(4096, 2048),
             nn.LeakyReLU(0.2, inplace=True),
             nn.Linear(2048, 1024),
-            nn.LeakyReLU(0.2, inplace=True),
+            # nn.LeakyReLU(0.2, inplace=True),
             # nn.Linear(1024, 512),
             # nn.LeakyReLU(0.2, inplace=True),
             # nn.Linear(512, 256),
