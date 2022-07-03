@@ -58,10 +58,10 @@ class SimpleDataset(torch.utils.data.Dataset):
 #     return (x_train, y_train), (x_test, y_test)
 
 
-def load_mnist(trainset_path, image_size=275, training_label=1, split_rate=0.8):
-    x_train = torch.zeros(len(os.listdir(trainset_path + '/' + 'trainset')), image_size, image_size)
+def load_mnist(trainset_path, image_height=275, image_width=275, training_label=1, split_rate=0.8):
+    x_train = torch.zeros(len(os.listdir(trainset_path + '/' + 'trainset')), image_width, image_height)
     y_train = []
-    x_test = torch.zeros(len(os.listdir(trainset_path + '/' + 'anomalous')), image_size, image_size)
+    x_test = torch.zeros(len(os.listdir(trainset_path + '/' + 'anomalous')), image_width, image_height)
     y_test = []
     for i, folder in enumerate(os.listdir(trainset_path)):
         for j, image_name in enumerate(os.listdir(trainset_path + '/' + folder)):

@@ -13,7 +13,7 @@ Licensed under MIT
 class Generator(nn.Module):
     def __init__(self, opt):
         super().__init__()
-        self.img_shape = (opt.channels, opt.img_size, opt.img_size)
+        self.img_shape = (opt.channels, opt.img_width, opt.img_height)
 
         def block(in_feat, out_feat, normalize=True):
             layers = [nn.Linear(in_feat, out_feat)]
@@ -43,7 +43,7 @@ class Generator(nn.Module):
 class Discriminator(nn.Module):
     def __init__(self, opt):
         super().__init__()
-        img_shape = (opt.channels, opt.img_size, opt.img_size)
+        img_shape = (opt.channels, opt.img_width, opt.img_height)
 
         self.features = nn.Sequential(
             nn.Linear(int(np.prod(img_shape)), 2048),
@@ -74,7 +74,7 @@ class Discriminator(nn.Module):
 class Encoder(nn.Module):
     def __init__(self, opt):
         super().__init__()
-        img_shape = (opt.channels, opt.img_size, opt.img_size)
+        img_shape = (opt.channels, opt.img_width, opt.img_height)
 
         self.model = nn.Sequential(
             nn.Linear(int(np.prod(img_shape)), 1024),  

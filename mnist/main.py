@@ -32,7 +32,8 @@ def main(opt):
 
     datastamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     print("----------  dataset loading stage  ----------")
-    (x_train, y_train), (x_test, y_test) = load_mnist(image_size=opt.img_size,
+    (x_train, y_train), (x_test, y_test) = load_mnist(image_height=opt.img_height,
+                                        image_width=opt.img_width,
                                        trainset_path=opt.path,
                                        training_label=opt.training_label,
                                        split_rate=opt.split_rate)
@@ -134,7 +135,9 @@ if __name__ == "__main__":
                         help="adam: decay of first order momentum of gradient")
     parser.add_argument("--latent_dim", type=int, default=200,
                         help="dimensionality of the latent space")
-    parser.add_argument("--img_size", type=int, default=300,
+    parser.add_argument("--img_width", type=int, default=300,
+                        help="size of each image dimension")
+    parser.add_argument("--img_height", type=int, default=300,
                         help="size of each image dimension")
     parser.add_argument("--channels", type=int, default=1,
                         help="number of image channels")
