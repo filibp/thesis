@@ -23,8 +23,8 @@ class Generator(nn.Module):
             return layers
 
         self.model = nn.Sequential(
-            *block(opt.latent_dim, 512, normalize=False),
-            *block(512, 1024, normalize=False),
+            *block(opt.latent_dim, 1024, normalize=False),
+            # *block(512, 1024, normalize=False),
             *block(1024, 2048, normalize=False),
             *block(2048, 4096, normalize=False),
             *block(4096, 8192),
@@ -77,19 +77,19 @@ class Encoder(nn.Module):
         img_shape = (opt.channels, opt.img_width, opt.img_height)
 
         self.model = nn.Sequential(
-            nn.Linear(int(np.prod(img_shape)), 1024),  
+            nn.Linear(int(np.prod(img_shape)), 2048),  
             # nn.LeakyReLU(0.2, inplace=True),
             # nn.Linear(8192, 4096),
             # nn.LeakyReLU(0.2, inplace=True),
             # nn.Linear(4096, 2048),
             nn.LeakyReLU(0.2, inplace=True),
-            # nn.Linear(2048, 1024),
-            # nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(2048, 1024),
+            nn.LeakyReLU(0.2, inplace=True),
             nn.Linear(1024, 512),
             nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(512, 256),
-            nn.LeakyReLU(0.2, inplace=True),
-            nn.Linear(256, opt.latent_dim),
+            # nn.Linear(512, 256),
+            # nn.LeakyReLU(0.2, inplace=True),
+            nn.Linear(512, opt.latent_dim),
             nn.Tanh()
         )
 
